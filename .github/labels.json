@@ -1,0 +1,88 @@
+[
+    {
+        "name": "Priority: Blocker",
+        "color": "#b60205",
+        "description": "This has the highest priority, as the functionality is severely impaired or not given at all."
+    },
+    {
+        "name": "Priority: Critical",
+        "color": "#d93f0b",
+        "description": "This is treated with high priority, as the functionality is partially impaired."
+    },
+    {
+        "name": "Priority: Major",
+        "color": "#fbca04",
+        "description": "This is treated with medium priority, as the functionality does not meet expectations."
+    },
+    {
+        "name": "Priority: Minor",
+        "color": "#0e8a16",
+        "description": "This is treated with low priority, as the functionality is only slightly impaired."
+    },
+    {
+        "name": "Priority: Trivial",
+        "color": "#006b75",
+        "description": "This is treated with the lowest priority, as the functionality is barely or not at all impaired."
+    },
+
+    {
+        "name": "Status: Open",
+        "color": "#cccccc",
+        "description": ""
+    },
+    {
+        "name": "Status: On Hold",
+        "color": "#cccccc",
+        "description": ""
+    },
+    {
+        "name": "Status: Approved",
+        "color": "#cccccc",
+        "description": ""
+    },
+    {
+        "name": "Status: In Progress",
+        "color": "#cccccc",
+        "description": ""
+    },
+    {
+        "name": "Status: In Review",
+        "color": "#cccccc",
+        "description": ""
+    },
+    {
+        "name": "Status: Done",
+        "color": "#cccccc",
+        "description": ""
+    },
+    {
+        "name": "Status: Wontfix",
+        "color": "#cccccc",
+        "description": ""
+    },
+    {
+        "name": "Type: Bug",
+        "color": "#1d76db",
+        "description": ""
+    },
+    {
+        "name": "Type: Enhancement",
+        "color": "#1d76db",
+        "description": ""
+    },
+    {
+        "name": "Type: Feature",
+        "color": "#1d76db",
+        "description": ""
+    },
+    {
+        "name": "Type: Maintenance",
+        "color": "#1d76db",
+        "description": ""
+    },
+    {
+        "name": "Type: Question",
+        "color": "#1d76db",
+        "description": ""
+    }
+]

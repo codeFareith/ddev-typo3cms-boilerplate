@@ -1,0 +1,85 @@
+version: '3.6'
+
+services:
+  web:
+    volumes:
+      - "./php/profiler/:/tmp/debug/:delegated"
+
+      - type: volume
+        source: nfsmount
+        target: /var/www/html
+        consistency: consistent
+        volume:
+          nocopy: true
+
+      - type: volume
+        source: typo3src-nfs
+        target: /var/www/html/public/typo3
+        consistency: delegated
+        volume:
+          nocopy: true
+
+      - type: volume
+        source: vendor-nfs
+        target: /var/www/html/vendor
+        consistency: delegated
+        volume:
+          nocopy: true
+
+      - type: volume
+        source: var-nfs
+        target: /var/www/html/var
+        consistency: delegated
+        volume:
+          nocopy: true
+
+      - type: volume
+        source: localter-nfs
+        target: /var/lib/ter
+        consistency: cached
+        volume:
+          nocopy: true
+
+volumes:
+  nfsmount:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=host.docker.internal,rw,hard,noac,nolock,fg,nfsvers=3"
+      device: ":/System/Volumes/Data/${DDEV_APPROOT}"
+
+  typo3src-nfs:
+    name: "${DDEV_SITENAME}-typo3src"
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=host.docker.internal,rw,hard,nolock,bg,nfsvers=3"
+      device: ":/System/Volumes/Data/${DDEV_APPROOT}/public/typo3"
+
+
+  vendor-nfs:
+    name: "${DDEV_SITENAME}-vendor"
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=host.docker.internal,rw,hard,nolock,bg,nfsvers=3"
+      device: ":/System/Volumes/Data/${DDEV_APPROOT}/vendor"
+
+
+  var-nfs:
+    name: "${DDEV_SITENAME}-var"
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=host.docker.internal,rw,hard,nolock,bg,nfsvers=3"
+      device: ":/System/Volumes/Data/${DDEV_APPROOT}/var"
+
+
+  localter-nfs:
+    name: "${DDEV_SITENAME}-localter"
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=host.docker.internal,ro,hard,nolock,bg,nfsvers=3"
+      device: ":/System/Volumes/Data/${DDEV_APPROOT}/../../Extensions"
+

@@ -1,0 +1,22 @@
+version: '3.6'
+
+services:
+  redis:
+    container_name: ddev-${DDEV_SITENAME}-redis
+    hostname: ${DDEV_SITENAME}-redis
+    image: redis:4
+    ports:
+      - "${REDIS_SERVER_PORT}"
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: ${DDEV_APPROOT}
+    volumes:
+      - "./redis:/usr/local/etc/redis"
+      - ".:/mnt/ddev_config:ro"
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+  web:
+    depends_on:
+      - redis
+    links:
+      - redis:redis

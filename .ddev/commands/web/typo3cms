@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+## Description: Run typo3cms console
+## Usage: typo3cms [args]
+## Example: "ddev typo3cms help"
+
+FILE="vendor/bin/typo3cms"
+
+TYPO3_CONTEXT=${TYPO3_CONTEXT} ${FILE} "${@}"

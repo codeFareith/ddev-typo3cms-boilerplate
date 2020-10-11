@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+## Description: Show typo3 logs
+## Usage: typo3logs
+## Example: "ddev typo3logs"
+
+LOGDIR="/var/www/html/var/log/*"
+
+tail -f ${LOGDIR} >> /dev/stderr

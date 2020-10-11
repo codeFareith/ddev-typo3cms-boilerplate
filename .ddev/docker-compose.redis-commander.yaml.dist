@@ -1,0 +1,26 @@
+version: '3.6'
+
+services:
+  redis-commander:
+    container_name: ddev-${DDEV_SITENAME}-redis-commander
+    hostname: ${DDEV_SITENAME}-redis-commander
+    image: rediscommander/redis-commander
+    restart: always
+    ports:
+      - "${REDIS_COMMANDER_PORT_HTTP}"
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: ${DDEV_APPROOT}
+    environment:
+      - VIRTUAL_HOST=${DDEV_HOSTNAME}
+      - HTTP_EXPOSE=${REDIS_COMMANDER_PORT_HTTP}
+      - HTTPS_EXPOSE=${REDIS_COMMANDER_PORT_HTTPS}:${REDIS_COMMANDER_PORT_HTTP}
+      - REDIS_HOST=${REDIS_SERVER_HOST}
+      - REDIS_PORT=${REDIS_SERVER_PORT}
+      - PORT=${REDIS_COMMANDER_PORT_HTTP}
+    volumes:
+      - ".:/mnt/ddev_config:ro"
+
+  redis:
+    links:
+      - redis-commander:redis-commander

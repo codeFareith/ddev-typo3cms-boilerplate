@@ -1,0 +1,46 @@
+{
+    "name": "codefareith/ddev-typo3cms-boilerplate",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://composer.typo3.org/"
+        }
+    ],
+    "description": "DDEV boilerplate for TYPO3 CMS projects",
+    "license": [
+        "GPL-3.0-or-later"
+    ],
+
+    "require": {
+        "php": "^5.6",
+        "typo3/cms": "^7.6",
+        "helhum/typo3-console": "*"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
+    },
+
+    "scripts": {
+        "typo3-cms-scripts": [
+            "typo3cms install:fixfolderstructure",
+            "typo3cms install:generatepackagestates"
+        ],
+        "post-autoload-dump": [
+            "@typo3-cms-scripts"
+        ]
+    },
+    "extra": {
+        "helhum/typo3-console":{
+            "install-extension-dummy":"0"
+        },
+        "typo3/cms": {
+            "cms-package-dir":"{$vendor-dir}/typo3/cms",
+            "web-dir": "public"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "5.6.40"
+        }
+    }
+}

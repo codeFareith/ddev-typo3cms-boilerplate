@@ -1,0 +1,32 @@
+version: '3.6'
+
+services:
+  elasticsearch:
+    container_name: ddev-${DDEV_SITENAME}-elasticsearch
+    hostname: ${DDEV_SITENAME}-elasticsearch
+    image: elasticsearch:7.6.1
+    ports:
+      - "${ELASTICSEARCH_PORT_FIRST}"
+      - "${ELASTICSEARCH_PORT_SECOND}"
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: ${DDEV_APPROOT}
+    environment:
+      - cluster.name=${ELASTICSEARCH_CLUSTER_NAME}
+      - discovery.type=${ELASTICSEARCH_DISCOVERY_TYPE}
+      - bootstrap.memory_lock=${ELASTICSEARCH_BOOTSTRAP_MEMORY_LOCK}
+      - HTTP_EXPOSE=${ELASTICSEARCH_PORT_FIRST}:${ELASTICSEARCH_PORT_FIRST}
+      - HTTPS_EXPOSE=${ELASTICSEARCH_PORT_HTTPS}:${ELASTICSEARCH_PORT_FIRST}
+      - VIRTUAL_HOST=${DDEV_HOSTNAME}
+      - "ES_JAVA_OPTS=${ELASTICSEARCH_JAVA_OPTS}"
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+      - ".:/mnt/ddev_config:ro"
+
+  web:
+    links:
+      - elasticsearch:elasticsearch
+
+volumes:
+  elasticsearch:
+    name: "${DDEV_SITENAME}-elasticsearch"

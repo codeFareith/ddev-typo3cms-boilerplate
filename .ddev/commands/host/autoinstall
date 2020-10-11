@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+## Description: Installs TYPO3
+## Usage: autoinstall
+## Example: "ddev autoinstall"
+
+FILE="${DDEV_DOCROOT}/${INSTALL_LOCK_FILE}"
+
+if [[ ! -f ${FILE} ]]
+then
+	ddev composer install
+
+	tput setaf 2; echo "Clearing database..."; tput sgr0;
+	echo 'SET FOREIGN_KEY_CHECKS = 0;' | ddev mysql --database="${TYPO3_INSTALL_DB_DBNAME}"
+	ddev exec "mysqldump ${TYPO3_INSTALL_DB_DBNAME} --add-drop-table --no-data" | grep ^DROP | ddev exec "mysql -v -uroot -proot ${TYPO3_INSTALL_DB_DBNAME}"
+	echo 'SET FOREIGN_KEY_CHECKS = 1;' | ddev mysql --database="${TYPO3_INSTALL_DB_DBNAME}"
+	tput setaf 6; echo "Done!"; tput sgr0;
+
+	tput setaf 2; echo "Running 'typo3cms install:setup'..."; tput sgr0;
+	ddev typo3cms install:setup \
+			--force \
+			--use-existing-database \
+			--no-interaction \
+			--database-driver "${TYPO3_INSTALL_DB_DRIVER:-'mysqli'}" \
+			--database-user-name "${TYPO3_INSTALL_DB_USER}" \
+			--database-user-password "${TYPO3_INSTALL_DB_PASSWORD}" \
+			--database-host-name "${TYPO3_INSTALL_DB_HOST:-'localhost'}" \
+			--database-port "${TYPO3_INSTALL_DB_PORT:-'3306'}" \
+			--database-socket "${TYPO3_INSTALL_DB_UNIX_SOCKET:-''}" \
+			--database-name "${TYPO3_INSTALL_DB_DBNAME}" \
+			--admin-user-name "${TYPO3_INSTALL_ADMIN_USER}" \
+			--admin-password "${TYPO3_INSTALL_ADMIN_PASSWORD}" \
+			--web-server-config "${TYPO3_INSTALL_WEB_SERVER_CONFIG:-'none'}" \
+			--site-name "${TYPO3_INSTALL_SITE_NAME:-'New TYPO3 CMS site'}" \
+			--site-setup-type "${TYPO3_INSTALL_SITE_SETUP_TYPE:-'no'}"
+	tput setaf 6; echo "Done!"; tput sgr0;
+
+	touch "${FILE}"
+
+	tput setaf 2; echo "Lockfile ${FILE} created."; tput sgr0;
+
+	ddev exec "cp -f ./data/config/public/typo3conf/AdditionalConfiguration.php ./public/typo3conf/AdditionalConfiguration.php"
+	ddev exec "cp -f ./data/config/public/.htaccess ./public/.htaccess"
+	ddev exec "echo '* * * * * root TYPO3_CONTEXT=${TYPO3_CONTEXT} /usr/bin/php ./vendor/bin/typo3 scheduler:run' | sudo tee -a /etc/cron.d/typo3"
+	ddev exec "sudo chmod 0600 /etc/cron.d/typo3 && sudo service cron start"
+	ddev exec "npm install -g svgo"
+else
+	tput setaf 2; echo "Project already installed."; tput sgr0;
+	tput setaf 2; echo "If you want to perform a clean reinstallation, delete ${FILE}."; tput sgr0;
+fi
