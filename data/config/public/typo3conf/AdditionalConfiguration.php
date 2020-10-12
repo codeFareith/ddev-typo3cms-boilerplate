@@ -1,7 +1,7 @@
 <?php
 
 $globalsRef = &$GLOBALS;
-$applicationContext = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
+$applicationContext = \TYPO3\CMS\Core\Core\Environment::getContext()->__toString();
 $ddevProject = getenv('DDEV_PROJECT');
 $ddevTld = getenv('DDEV_TLD');
 $timezone = getenv('TZ');
@@ -75,6 +75,71 @@ switch ($applicationContext) {
 
         $globalsRef['TYPO3_CONF_VARS']['SYS']['systemMaintainers'] = [
             1,
+        ];
+
+/*---------------------------------------------------------------------------------------------------------------------
+ |    CACHING CONFIGURATION
+ *--------------------------------------------------------------------------------------------------------------------*/
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['core']['frontend'] = \TYPO3\CMS\Core\Cache\Frontend\PhpFrontend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['core']['backend'] = \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['core']['options'] = [
+            'cacheDirectory' => \TYPO3\CMS\Core\Core\Environment::getVarPath() . '/cache/code/core',
+        ];
+
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['hash']['frontend'] = \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['hash']['backend'] = \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['hash']['options'] = [
+            'cacheDirectory' => \TYPO3\CMS\Core\Core\Environment::getVarPath() . '/cache/data/hash',
+        ];
+
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['pages']['frontend'] = \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['pages']['backend'] = \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['pages']['options'] = [
+            'cacheDirectory' => \TYPO3\CMS\Core\Core\Environment::getVarPath() . '/cache/data/pages',
+        ];
+
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['pagesection']['frontend'] = \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['pagesection']['backend'] = \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['pagesection']['options'] = [
+            'cacheDirectory' => \TYPO3\CMS\Core\Core\Environment::getVarPath() . '/cache/data/pagesection',
+        ];
+
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['runtime']['frontend'] = \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['runtime']['backend'] = \TYPO3\CMS\Core\Cache\Backend\TransientMemoryBackend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['extbase']['options'] = [];
+
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['rootline']['frontend'] = \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['rootline']['backend'] = \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['rootline']['options'] = [
+            'cacheDirectory' => \TYPO3\CMS\Core\Core\Environment::getVarPath() . '/cache/data/rootline',
+        ];
+
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['imagesizes']['frontend'] = \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['imagesizes']['backend'] = \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['imagesizes']['options'] = [
+            'cacheDirectory' => \TYPO3\CMS\Core\Core\Environment::getVarPath() . '/cache/data/imagesizes',
+        ];
+
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['assets']['frontend'] = \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['assets']['backend'] = \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['assets']['options'] = [
+            'cacheDirectory' => \TYPO3\CMS\Core\Core\Environment::getVarPath() . '/cache/data/assets',
+        ];
+
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['l10n']['frontend'] = \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['l10n']['backend'] = \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['l10n']['options'] = [
+            'cacheDirectory' => \TYPO3\CMS\Core\Core\Environment::getVarPath() . '/cache/data/l10n',
+        ];
+
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['fluid_template']['frontend'] = \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['fluid_template']['backend'] = \TYPO3\CMS\Fluid\Core\Cache\FluidTemplateCache::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['fluid_template']['options'] = [];
+
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['extbase']['frontend'] = \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['extbase']['backend'] = \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
+        $globalsRef['TYPO3_CONF_VARS']['SYS']['cache']['cacheConfigurations']['extbase']['options'] = [
+            'cacheDirectory' => \TYPO3\CMS\Core\Core\Environment::getVarPath() . '/cache/data/extbase',
         ];
 
         break;
