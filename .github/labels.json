@@ -36,7 +36,7 @@
         "description": ""
     },
     {
-        "name": "Status: Approved",
+        "name": "Status: To Do",
         "color": "#cccccc",
         "description": ""
     },
@@ -51,7 +51,12 @@
         "description": ""
     },
     {
-        "name": "Status: Done",
+        "name": "Status: Approved",
+        "color": "#cccccc",
+        "description": ""
+    },
+    {
+        "name": "Status: Released",
         "color": "#cccccc",
         "description": ""
     },
@@ -60,6 +65,7 @@
         "color": "#cccccc",
         "description": ""
     },
+    
     {
         "name": "Type: Bug",
         "color": "#1d76db",
