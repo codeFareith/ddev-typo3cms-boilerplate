@@ -2,7 +2,7 @@
 name: Feature request
 about: Suggest an idea for this project
 title: "[FEATURE]"
-labels: 'Status: On Hold, Type: Feature'
+labels: 'Status: Open, Type: Feature'
 assignees: codeFareith
 
 ---
